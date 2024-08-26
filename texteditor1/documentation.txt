@@ -1,0 +1,125 @@
+
+file make_file 
+	1. kilo mean -> what you want to build 
+	2. kilo.c mean -> what required to build 
+	and second line specifies the command the command to run in order to acctually build kilo out kilo.c 
+	
+	wall stand for warning and wextra and pedantic turn on more warning 
+	-std=c99 specifies the exact version of c language standard we are using C99
+
+
+// Entering row mode 
+// 
+read() and STDIN_FILENO come from <unistd.h>. We are asking read() to read 1 byte from the standard input into the variable c, and to keep doing it until there are no more bytes to read. read() returns the number of bytes that it read, and will return 0 when it reaches the end of a file.'
+
+//
+
+// TERMIOS 
+//termios -> The struct termios structure is defined in the <termios.h> header file and is used to configure terminal I/O behavior. Here’s a detailed breakdown of its components:
+
+//  tcflag_t c_iflag;   // Input mode flags
+    tcflag_t c_oflag;   // Output mode flags
+    tcflag_t c_cflag;   // Control mode flags
+    tcflag_t c_lflag;   // Local mode flags
+    cc_t c_cc[NCCS];    // Control characters
+
+// ECHO -> mean show your input 
+
+// The purpose of this is that when you type something in the terminal, the input will not be displayed on the screen. This allows the command input to be processed securely without displaying it on the screen, which is often useful for password input or other sensitive data.
+
+
+//  ICANON ->   There is an ICANON flag that allows us to turn off canonical mode. This means we will finally be reading input byte-by-byte, instead 
+                of line-by-line.
+
+
+
+
+
+
+       //  CTR+S AND CTR+Q
+
+		By default, Ctrl-S and Ctrl-Q are used for software flow control. Ctrl-S stops data from being transmitted to the terminal until you 
+		press Ctrl-Q. This originates in the days when you might want to pause the transmission of data to let a device like a printer catch up
+		. Let’s just turn off that feature.
+	
+
+// Turn Off all the output  processing
+	OPOST -> output is we can use this for control how output is processed by the terminal 
+	We will turn off all output processing features by turning off the OPOST flag. In practice, the "\n" to "\r\n" translation is likely the only
+	 output processing feature turned on by default.
+	 
+	 
+	 
+//   The flags BRKINT, INPCK, ISTRIP, and CS8 are part of the termios structure used in Unix-like operating systems to configure terminal I/O settings. 
+	They are found in the <termios.h> header file and control various aspects of input processing on terminal devices.
+	
+	1. BRKINT (Break Interrupt)
+           Purpose:
+           The BRKINT flag controls whether the terminal driver should generate an interrupt signal (SIGINT) when a break condition (a sequence of zero 
+           or low voltage) is detected on the input line.
+
+	Behavior:
+
+	 	When BRKINT is set, the terminal driver sends a SIGINT signal to the process if a break condition occurs.
+		If BRKINT is not set, the break condition is ignored, and no signal is sent.
+		
+		
+      2 .INPCK (Input Parity Checking)
+		Purpose:
+			The INPCK flag controls whether input parity checking is enabled. Parity checking helps detect errors in transmitted data.
+
+	Behavior:
+		When INPCK is set, the terminal driver checks for parity errors in the input data and sets the PARITY error flag if it detects an error.
+		If INPCK is not set, parity errors are not checked.
+		
+	3. ISTRIP (Input Strip 8th Bit)
+		Purpose: 
+			The ISTRIP flag controls whether the 8th bit of input characters is stripped off.
+
+		Behavior:
+			When ISTRIP is set, the terminal driver removes the 8th bit from input characters, effectively converting 8-bit characters to 
+			7-bit characters.
+			If ISTRIP is not set, the full 8-bit data is preserved.
+	
+	4. CS8 (Character Size 8 Bits)
+		Purpose:
+			The CS8 flag specifies the number of data bits per character. It sets the character size to 8 bits.
+
+		Behavior:
+			When CS8 is set, the terminal driver configures the terminal to use 8-bit characters.
+			Other CS flags can be used to set different character sizes, such as CS7 for 7 bits.
+			
+
+	// A timeout for read()
+		
+	Currently, read() will wait indefinitely for input from the keyboard before it returns. What if we want to do something like animate 	something 
+	on the screen while waiting for user input? We can set a timeout, so that read() returns if it doesn’t get any input for a certain amount of time.
+		
+	VMIN and VTIME come from termios.h they are indexed into c_cc field which stand for control chracter an array of byte that control various terminal 
+	setting 
+	
+	The VMIN value set the minimum number of byte of input needed before read() can return . we set it to zero so that read() return as soon as there is 
+	any input to be read();
+	
+	The VTIME values set the maximum amount of time to wait to wait before read() return . it is a tenth of second we set it 1/10 of a second / 100 
+	milisecond 
+	
+	summary 
+	VMIN: Specifies the minimum number of characters to read before returning. A value of 0 makes the read operation non-blocking if any data
+	is available.
+	VTIME: Specifies the timeout in tenths of a second for reading additional data after the minimum number of characters has been read.
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

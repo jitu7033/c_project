@@ -81,6 +81,8 @@ int getWindowSize(int *rows,int *cols){
 		return 0;
 	}
 	
+
+
 }
 
 /*   output   */
