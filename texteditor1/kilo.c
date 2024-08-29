@@ -39,7 +39,7 @@ struct editorConfig{
 	// cursor movment 
 	int cx; // the column 
 	int cy ; // the row 
-
+  int rowoff; // this is used for scrolling the file
 	int screenrows;
 	int screencols;
   int numrows;
@@ -184,7 +184,7 @@ void editorOpen(char *filename){
     char *line = NULL;  // recently empty 
     size_t linecap = 0; // we dont no line capacity 
     ssize_t linelen; 
-    while((linelen = getline(&line, &linecap,fp)) != -1){  // linelen != -1 
+    while((linelen = getline(&line, &linecap,fp)) != -1){  // when read whole file then give me -1 then return the file 
       while(linelen > 0 && (line[linelen-1] == '\n' || line[linelen-1] == '\r'))
         linelen--;
       editorAppendRow(line,linelen);
@@ -216,15 +216,24 @@ void abFree(struct abuf *ab){
 }
 
 
-
 /*   output   */
 
+
+void editorScroll(){
+  if(E.cy < E.rowoff){
+    E.rowoff = E.cy;
+  }
+  if(E.cy >= E.rowoff + E.screenrows){
+    E.rowoff = E.cy - E.screenrows + 1;
+  }
+}
 
 
 void editorDrawRows(struct abuf *ab) {
   int y;
   for (y = 0; y < E.screenrows; y++) {
-    if (y >= E.numrows) {
+    int filerow = y + E.rowoff;
+    if (filerow >= E.numrows) {
       if (E.numrows == 0 && y == E.screenrows / 3) {
         char welcome[80];
         int welcomelen = snprintf(welcome, sizeof(welcome),
@@ -240,10 +249,10 @@ void editorDrawRows(struct abuf *ab) {
       } else {
         abAppend(ab, "~", 1);
       }
-    } else {
-      int len = E.row[y].size;
+    }else {
+      int len = E.row[filerow].size;
       if (len > E.screencols) len = E.screencols;
-      abAppend(ab, E.row[y].chars, len);
+      abAppend(ab, E.row[filerow].chars, len);
     }
     abAppend(ab, "\x1b[K", 3);
     if (y < E.screenrows - 1) {
@@ -252,42 +261,47 @@ void editorDrawRows(struct abuf *ab) {
   }
 }
 
-void editorRefreshScreen(){
-	struct abuf ab = ABUF_INIT;
-	abAppend(&ab, "\x1b[?25l", 6); // hide the cursor when you open the editor 
-	//abAppend(&ab, "\x1b[2J", 4);
-	abAppend(&ab, "\xb1[H", 3);
-	
-	editorDrawRows(&ab);
-
-	char buf[32];
-	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.cy + 1, E.cx + 1);
-	/* ?25 is used to hide and showing the cursor  */
-	abAppend(&ab, "\x1b[H", 3);
-	abAppend(&ab, "\x1b[?25h", 6); // show the cursor when editor is opend 
-
-	write(STDOUT_FILENO, ab.b, ab.len);
-	abFree(&ab);
+void editorRefreshScreen() {
+  editorScroll();
+  struct abuf ab = ABUF_INIT;
+  abAppend(&ab, "\x1b[?25l", 6);
+  abAppend(&ab, "\x1b[H", 3);
+  editorDrawRows(&ab);
+  char buf[32];
+  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1, E.cx + 1);
+  abAppend(&ab, buf, strlen(buf));
+  abAppend(&ab, "\x1b[?25h", 6);
+  write(STDOUT_FILENO, ab.b, ab.len);
+  abFree(&ab);
 }
 
-
 /*  Input   */
-void editorMoveCursor(char key) {
+void editorMoveCursor(int key) {
   switch (key) {
     case ARROW_LEFT:
-      if(E.cx!=0)E.cx--;
+      if (E.cx != 0) {
+        E.cx--;
+      }
       break;
     case ARROW_RIGHT:
-      if(E.cx != E.screencols-1) E.cx++;
+      if (E.cx != E.screencols - 1) {
+        E.cx++;
+      }
       break;
     case ARROW_UP:
-      if(E.cy!=0)E.cy--;
+      if (E.cy != 0) {
+        E.cy--;
+      }
       break;
     case ARROW_DOWN:
-      if(E.cy != E.screenrows) E.cy++;
+      if (E.cy < E.numrows) {
+        E.cy++;
+      }
       break;
   }
 }
+
+
 
 void editorProcessKeypress() {
   int c = editorReadKey();
@@ -325,6 +339,7 @@ void initEditor(){
 	E.cx = 0; // start from 0 col 
 	E.cy = 0; // start from 0 row 
   E.numrows = 0; // start from zero 
+  E.rowoff = 0; // we initilize zero it mean we scroll the top of the file by default 
   E.row = NULL;
 	if(getWindowSize(&E.screenrows,&E.screencols)==-1)die("getWindowSize");
 }
@@ -348,3 +363,8 @@ int main(int args, char *argv[])
 	}
 	return 0;
 }
+
+
+
+
+
