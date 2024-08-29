@@ -29,6 +29,11 @@ enum editorKey {
 
 /*** data ***/
 
+typedef struct erow{  // erow stand for editor row 
+  int size;
+  char *chars;
+}erow;
+
 struct editorConfig{
 	// cursor movment 
 	int cx; // the column 
@@ -36,8 +41,10 @@ struct editorConfig{
 
 	int screenrows;
 	int screencols;
-
+  int numrows;
+  erow row; 
 	struct termios orig_termios;
+
 };
 struct editorConfig E;
 
@@ -152,6 +159,36 @@ int getWindowSize(int *rows, int *cols) {
 }
 
 
+/*****  file i/o  ****/
+
+void editorOpen(char *filename){
+    // char *line = "Hello World";
+    // ssize_t linelen = 13;
+
+    //lets allow to the user open actual file 
+
+    FILE *fp = fopen(filename,"r");
+    if(!fp)die("fopen");
+
+    char *line = NULL;  // recently empty 
+    size_t linecap = 0; // we dont no line capacity 
+    ssize_t linelen;
+    linelen = getline(&line,&linecap,fp); // get a length of row 
+    if(linelen!=-1){
+      while(linelen > 0 && line[linelen-1] == '\n' || line[linelen-1] == '\r'){
+        linelen--;
+      }
+
+      E.row.size = linelen;
+      E.row.chars = malloc(linelen+1);
+      memcpy(E.row.chars,line,linelen);
+      E.row.chars[linelen] = '\0';
+      E.numrows = 1;
+    }
+    free(line); // free the all memory we take in every row
+    free(fp);  // free the memory which file are opened 
+}
+
 /* Append Buffer */
 
 struct abuf{
@@ -180,30 +217,35 @@ void abFree(struct abuf *ab){
 
 
 
-void editorDrawRows(struct abuf *ab){
-	int y;
+void editorDrawRows(struct abuf *ab) {
+  int y;
   for (y = 0; y < E.screenrows; y++) {
-    if (y == E.screenrows / 3) {
-      char welcome[80];
-      int welcomelen = snprintf(welcome, sizeof(welcome),
-        "Kilo editor -- version %s", KILO_VERSION);
-      if (welcomelen > E.screencols) welcomelen = E.screencols;
-      int padding = (E.screencols - welcomelen) / 2;
-      if (padding) {
+    if (y >= E.numrows) {
+      if (y == E.screenrows / 3) {
+        char welcome[80];
+        int welcomelen = snprintf(welcome, sizeof(welcome),
+          "Kilo editor -- version %s", KILO_VERSION);
+        if (welcomelen > E.screencols) welcomelen = E.screencols;
+        int padding = (E.screencols - welcomelen) / 2;
+        if (padding) {
+          abAppend(ab, "~", 1);
+          padding--;
+        }
+        while (padding--) abAppend(ab, " ", 1);
+        abAppend(ab, welcome, welcomelen);
+      } else {
         abAppend(ab, "~", 1);
-        padding--;
       }
-      while (padding--) abAppend(ab, " ", 1);
-      abAppend(ab, welcome, welcomelen);
     } else {
-      abAppend(ab, "~", 1);
+      int len = E.row.size;
+      if (len > E.screencols) len = E.screencols;
+      abAppend(ab, E.row.chars, len);
     }
     abAppend(ab, "\x1b[K", 3);
     if (y < E.screenrows - 1) {
       abAppend(ab, "\r\n", 2);
     }
   }
-
 }
 
 void editorRefreshScreen(){
@@ -278,16 +320,22 @@ void editorProcessKeypress() {
 void initEditor(){
 	E.cx = 0; // start from 0 col 
 	E.cy = 0; // start from 0 row 
+  E.numrows = 0; // start from zero 
 	if(getWindowSize(&E.screenrows,&E.screencols)==-1)die("getWindowSize");
 }
 
 
 /***   init  ***/
 
-int main()
+int main(int args, char *argv[])
 {
 	enableRawMode();
 	initEditor();
+
+  if(args>=2){
+    editorOpen(argv[1]);
+  }
+ 
 
 	while(1){
 		editorProcessKeypress();

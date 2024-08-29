@@ -109,7 +109,13 @@ read() and STDIN_FILENO come from <unistd.h>. We are asking read() to read 1 byt
 	is available.
 	VTIME: Specifies the timeout in tenths of a second for reading additional data after the minimum number of characters has been read.
 	 
-
+	
+	function 
+	malloc -> comes from  stlib.h 
+	ssize_t -> come from <sys/types.h>
+	fileopen -> stdio.h
+	getline -> stdio.h
+	
 
 
 
