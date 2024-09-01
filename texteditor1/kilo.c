@@ -49,6 +49,7 @@ struct editorConfig
   int screencols;
   int numrows;
   erow *row;
+  char *filename;
   struct termios orig_termios;
 };
 
@@ -112,6 +113,7 @@ void editorAppendRow(char *s, size_t len)
   E.numrows++;
 }
 
+
 void die(const char *s)
 {
   write(STDOUT_FILENO, "\x1b[2J", 4);
@@ -120,11 +122,13 @@ void die(const char *s)
   exit(1);
 }
 
+
 void disableRawMode()
 {
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.orig_termios) == -1)
     die("tcsetattr");
 }
+
 
 void enableRawMode()
 {
@@ -145,6 +149,7 @@ void enableRawMode()
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1)
     die("tcsetattr");
 }
+
 
 int editorReadKey()
 {
@@ -226,6 +231,7 @@ int editorReadKey()
   }
 }
 
+
 /** get cusor position  */
 int getCursorPosition(int *rows, int *cols)
 {
@@ -249,6 +255,7 @@ int getCursorPosition(int *rows, int *cols)
   return 0;
 }
 
+
 int getWindowSize(int *rows, int *cols)
 {
   struct winsize ws;
@@ -266,6 +273,7 @@ int getWindowSize(int *rows, int *cols)
   }
 }
 
+
 /*****  file i/o  ****/
 
 void editorOpen(char *filename)
@@ -273,8 +281,15 @@ void editorOpen(char *filename)
   // char *line = "Hello World";
   // ssize_t linelen = 13;
 
-  // lets allow to the user open actual file
 
+
+  free(E.filename);
+
+  // it make the copy of the gien string allocating the required memory and assuming you will free
+  E.filename = strdup(filename);
+
+
+ // lets allow to the user open actual file
   FILE *fp = fopen(filename, "r");
   if (!fp)
     die("fopen");
@@ -292,7 +307,9 @@ void editorOpen(char *filename)
   fclose(fp); // close the file
 }
 
+
 /* Append Buffer */
+
 
 struct abuf
 {
@@ -313,12 +330,14 @@ void abAppend(struct abuf *ab, const char *s, int len)
   ab->len += len;
 }
 
+
 void abFree(struct abuf *ab)
 {
   free(ab->b);
 }
 
 /*   output   */
+
 
 
 void editorScroll() {
@@ -381,12 +400,32 @@ void editorDrawRows(struct abuf *ab)
       abAppend(ab, &E.row[filerow].render[E.coloff], len);
     }
     abAppend(ab, "\x1b[K", 3);
-    if (y < E.screenrows - 1)
-    {
+    // if (y < E.screenrows - 1)
+    // {
       abAppend(ab, "\r\n", 2);
-    }
+    // }
   }
 }
+
+
+// to make the status bar 
+void editorDrawStatusBar(struct abuf *ab){
+  abAppend(ab,"\x1b[7m",4); // escape sequence switch to inverted color 
+
+  char status[80];
+  int len = snprintf(status,sizeof(status),"%.20s - %d lines",
+    E.filename ? E.filename : "[No Name]",E.numrows);
+
+  if(len > E.screencols) len = E.screencols;
+  abAppend(ab,status,len);
+  while(len < E.screencols){
+    abAppend(ab," ",1);
+    len++;
+  }
+  abAppend(ab,"\x1b[m",3); // escape sequence switch to the back to the normal formatting 
+
+}
+
 
 void editorRefreshScreen() {
   editorScroll();
@@ -394,6 +433,7 @@ void editorRefreshScreen() {
   abAppend(&ab, "\x1b[?25l", 6);
   abAppend(&ab, "\x1b[H", 3);
   editorDrawRows(&ab);
+  editorDrawStatusBar(&ab);
   char buf[32];
   snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.cy - E.rowoff) + 1,
                                             (E.rx - E.coloff) + 1);
@@ -402,6 +442,7 @@ void editorRefreshScreen() {
   write(STDOUT_FILENO, ab.b, ab.len);
   abFree(&ab);
 }
+
 
 /*  Input   */
 void editorMoveCursor(int key)
@@ -454,6 +495,7 @@ void editorMoveCursor(int key)
   }
 }
 
+
 void editorProcessKeypress() {
   int c = editorReadKey();
   switch (c) {
@@ -492,8 +534,6 @@ void editorProcessKeypress() {
 }
 
 
-
-
 void initEditor()
 {
   E.cx = 0;      // start from 0 col
@@ -503,10 +543,13 @@ void initEditor()
   E.coloff = 0;  // we initilize  zero it mean we start from left of the file by default
   E.rx = 0;
   E.row = NULL;
+  E.filename = NULL;  // if file is isnot opened we initilize null
 
-  if (getWindowSize(&E.screenrows, &E.screencols) == -1)
-    die("getWindowSize");
+  if (getWindowSize(&E.screenrows, &E.screencols) == -1) die("getWindowSize");
+  E.screenrows = -1;
+  
 }
+
 
 /***   init  ***/
 
