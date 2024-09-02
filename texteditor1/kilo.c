@@ -174,6 +174,32 @@ void editorInsertChar(int c){
 }
 
 
+void editorDelChar(){
+  if(E.cy == E.numrows) return ;
+
+  erow *row = &E.row[E.cy];
+  if(E.cx > 0){
+    editorRowDelChar(row, E.cx - 1);
+    E.cx--;
+  }
+}
+
+
+
+void editorRowDelChar(erow *row, int at){
+
+if(at < 0 || at > row->size) return;
+
+memmove( &row->chars[at] , row->chars[at+1] , row->size - at);
+
+row->size--;
+editorUpdateRow(row);
+E.dirty++;  // check condition you change the chracter here 
+
+}
+
+
+
 void die(const char *s)
 {
   write(STDOUT_FILENO, "\x1b[2J", 4);
@@ -679,7 +705,8 @@ void editorProcessKeypress() {
     case BACKSPACE :
     case CTRL_KEY('h'):
     case DEL_KEY :
-      /* Todo */
+      if(c == DEL_KEY) editorMoveCursor(ARROW_RIGHT);
+      editorDelChar();
       break;
     
     case PAGE_UP:
