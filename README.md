@@ -11,7 +11,7 @@ Kilo is a simple text editor written in C, following the tutorial "Build Your Ow
 ## Installation
     To build Kilo, you need a C compiler like gcc. Follow the steps below to compile and run Kilo:
 Clone the reposotry
-    git clone https://github.com/yourusername/kilo.git
+    git clone https://github.com/jitu7033/c_project.git
     cd kilo
 Compile the Code:
     gcc -o kilo kilo.c -Wall -Wextra -pedantic -std=c99
