@@ -15,7 +15,7 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/jitu7033/c_project/texteditor1/kilo.git
+git clone https://github.com/jitu7033/c_project.git
 cd kilo
 Compile the Code:
 
