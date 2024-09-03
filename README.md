@@ -9,7 +9,7 @@ File Operations: Open and save files.
 Syntax Highlighting: (Upcoming feature) Syntax highlighting support for various programming languages.
 Cross-Platform: Works on Unix-based systems.
 Installation
-To build Kilo, you need a C compiler like gcc. Follow the steps below to compile and run Kilo:
+To build Kilo, you need a C compiler like gcc. Follow the steps below to compile and run Kilo;
 
 Clone the Repository:
 
