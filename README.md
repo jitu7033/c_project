@@ -3,10 +3,10 @@
 Kilo is a simple text editor written in C, following the tutorial "Build Your Own Text Editor" by Snaptoken. It's designed to be minimal and lightweight, featuring basic functionalities like editing, saving, and navigating through text files.
 
 ## Features
- # Basic Text Editing : insert Delete and navigate text with ease
- # File Operations: Open and save files.
- # Syntax Highlighting: (Upcoming feature) Syntax highlighting support for various programming languages.
- # Cross-Platform: Works on Unix-based systems.
+ Basic Text Editing : insert Delete and navigate text with ease
+ File Operations: Open and save files.
+ Syntax Highlighting: (Upcoming feature) Syntax highlighting support for various programming languages.
+ Cross-Platform: Works on Unix-based systems.
 
 ## Installation
     To build Kilo, you need a C compiler like gcc. Follow the steps below to compile and run Kilo:
@@ -28,14 +28,14 @@ Run The Editor
 ## Key Binding 
 
 # Key Combination	Action
-  Ctrl-Q	Quit the editor
-  Ctrl-S	Save the current file
-  Ctrl-F	Find text in the file
-  Arrow Keys	Move the cursor
-  Page Up/Down	Scroll up/down by a page
-  Home/End	Move to the start/end of a line
-  Ctrl-H	Backspace
-  Ctrl-L	Refresh the screen
+  # Ctrl-Q	Quit the editor
+  # Ctrl-S	Save the current file
+  # Ctrl-F	Find text in the file
+  # Arrow Keys	Move the cursor
+  # Page Up/Down	Scroll up/down by a page
+  # Home/End	Move to the start/end of a line
+  # Ctrl-H	Backspace
+  # Ctrl-L	Refresh the screen
 
 ## Limitations
   Kilo does not support advanced features like multi-line editing, regular expressions, or plugin support.
