@@ -2,7 +2,6 @@ KILO TEXT EDITOR
 
 
 Kilo is a simple text editor written in C, following the tutorial "Build Your Own Text Editor" by Snaptoken. It's designed to be minimal and lightweight, featuring basic functionalities like editing, saving, and navigating through text files.
-
 Features
 Basic Text Editing: Insert, delete, and navigate text with ease.
 File Operations: Open and save files.
