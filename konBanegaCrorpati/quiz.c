@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <termios.h>
+#include <stdarg.h>
+#include <unistd.h>
 #include <stdlib.h>
 
 #define MAX_QUES_LEN 300
@@ -22,20 +25,56 @@ typedef struct{
 
 int readQuestion(char *fileName, Question** questions);
 void print_formated_question(Question question);
+void play_game(Question* questions,int no_of_question);
+void use_life_line();
+struct termios old_props;
+
+void reset_terminal_attributes();
+void set_terminal_attibute();
+
 
 int main(){
-
-    printf("%s\t\t\t Chalo Khelte Hai kon Banega Crorpati %s" ,PINK ,COLOR_END);
+    set_terminal_attibute();
+    printf("%s\t\t\t Chalo Khelte Hai kon Banega Crorepati %s\n" ,PINK ,COLOR_END);
     Question* questions;
     int no_of_question = readQuestion("question.txt", &questions);
-   printf("\n");
+    play_game(questions,no_of_question);
+    // Free allocated memory
+    exit(0);
+}
+
+void use_life_line(){
+    
+}
+
+void play_game(Question* questions,int no_of_question){
+    int sum = 0;
     for(int i = 0; i < no_of_question; i++){
         print_formated_question(questions[i]);
+        char ch = getchar();
+        ch = toupper(ch);
+        printf("%c\n",ch);
+        if(ch == 'L'){
+            printf("Not Supported Yet !");
+            break;
+        }
+
+        if(ch == questions[i].correct_option){
+            printf("%sCorrect !\n%s",GREEN,COLOR_END);
+            printf("\n");
+            printf("%sYou Won %d%s\n",AQUA,questions[i].prize_money,COLOR_END);
+            printf("\n");
+            sum += questions[i].prize_money;
+        }
+        else{
+            printf("\n");
+            printf("%sWrong Answer Correct Answer is : - %c %s\n",RED,questions[i].correct_option,COLOR_END);
+            break;
+        }
     }
-    
-    // Free allocated memory
-    free(questions);
-    return 0;
+     printf("\n");
+    printf("%sGame Over You Won %d %s\n",BLUE,sum,COLOR_END);
+     printf("\n");
 }
 
 int readQuestion(char *fileName, Question** questions){
@@ -85,11 +124,30 @@ int readQuestion(char *fileName, Question** questions){
 
 void print_formated_question(Question question){
     printf("%sQuestion: %s %s", YELLOW , question.text ,COLOR_END);
+     printf("\n");
     for (int i = 0; i < 4; i++) {
-        printf("%sOption %c. %s %s",BLUE, 'A' + i, question.option[i],COLOR_END);
+        printf("%sOption %c.%s%s",BLUE, 'A' + i, question.option[i],COLOR_END);
+       
     }
+     printf("\n");
     
-    printf("%sHurry Up !! You Have Only  %d seconds.... %s\n", RED,question.timeout,COLOR_END);
-    printf("%sEnter Your Answer (A,B,C,D) , or L for Life line : %s\n",GREEN,COLOR_END);
+    printf("%sHurry Up !! You Have Only %d seconds.... %s\n", RED,question.timeout,COLOR_END);
+     printf("\n");
+    printf("%sEnter Your Answer (A,B,C,D) , or L for Life line : %s",GREEN,COLOR_END);
+}
+
+
+
+void set_terminal_attibute(){
+    // change terminal property
+    tcgetattr(STDIN_FILENO, &old_props);
+    atexit(reset_terminal_attributes);
+    struct termios new_props = old_props;
+    new_props.c_lflag &= ~(ECHO | ICANON);
+    tcsetattr(STDIN_FILENO,TCSANOW, &new_props);
+}
+
+void reset_terminal_attributes(){
+    tcsetattr(STDIN_FILENO, TCSANOW,&old_props);
 }
     
