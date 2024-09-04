@@ -10,55 +10,75 @@ typedef struct{
     char correct_option;
     int timeout;
     int prize_money;
-}Question;
+} Question;
 
-
-void readQuestion(char *fileName, Question* questions);
-
+int readQuestion(char *fileName, Question** questions);
+void print_formated_question(Question question);
 
 int main(){
     Question* questions;
-    readQuestion("question.txt", questions);
+    int no_of_question = readQuestion("question.txt", &questions);
+    printf("\nNumber of Questions: %d\n", no_of_question);
+    for(int i = 0; i < no_of_question; i++){
+        print_formated_question(questions[i]);
+    }
+    
+    // Free allocated memory
+    free(questions);
+    return 0;
 }
 
-void readQuestion(char *fileName, Question * questions){
+int readQuestion(char *fileName, Question** questions){
     FILE *file = fopen(fileName,"r");
-
-    if(file == -1){
-        printf("\n Unable to FInd the Question bank.");
-        exit(0);
+    if(file == NULL){
+        printf("\nUnable to find the question bank.\n");
+        exit(1);
     }
 
     char str[MAX_QUES_LEN];
     int no_of_lines = 0;
     
-    while(fgets(str,MAX_QUES_LEN, file)){
+    while(fgets(str, MAX_QUES_LEN, file)){
         no_of_lines++;
     }
-
-    int no_of_question = no_of_lines/8;
-
-    questions = malloc(no_of_question * sizeof(Question));
-
-    rewind(file);  // cursor goes to the top 
+    
+    int no_of_question = no_of_lines / 8;
+    *questions = (Question *)malloc(no_of_question * sizeof(Question));
+    if (*questions == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+    rewind(file);  // Reset file pointer to the beginning
+   
     for(int i = 0; i < no_of_question; i++){
-        fgets(questions, MAX_QUES_LEN, file);
+        fgets((*questions)[i].text, MAX_QUES_LEN, file);
         for(int j = 0; j < 4; j++){
-            fgets(questions[i].option, MAX_ANS_LEN, file);
+            fgets((*questions)[i].option[j], MAX_ANS_LEN, file);
         }
 
         char option[10];
-       fgets(option, 10, file);
-       questions[i].correct_option = option[0];
+        fgets(option, 10, file);
+        (*questions)[i].correct_option = option[0];
 
+        char timeout[10];
+        fgets(timeout, 10, file);
+        (*questions)[i].timeout = atoi(timeout);
 
-       char time_out;
-       fgets(time_out, 10, file);
-       questions[i].timeout = atoi(time_out);
-
-       char prize_money;
-       fgets(prize_money, 10, file);
-       questions[i].prize_money = atoi(prize_money);
+        char prize_money[10];
+        fgets(prize_money, 10, file);
+        (*questions)[i].prize_money = atoi(prize_money);
     }
+
     fclose(file);
+    return no_of_question;
+}
+
+void print_formated_question(Question question){
+    printf("\nQuestion: %s", question.text);
+    for (int i = 0; i < 4; i++) {
+        printf("Option %c: %s", 'A' + i, question.option[i]);
+    }
+    printf("Correct Option: %c\n", question.correct_option);
+    printf("Timeout: %d seconds\n", question.timeout);
+    printf("Prize Money: %d\n", question.prize_money);
 }
