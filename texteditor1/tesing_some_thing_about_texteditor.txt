@@ -1,0 +1,3 @@
+this code build first after converted into the library thats why libarary file commited late . And every thing checked and work
+properly and some function are not added but it is sufficent i will try to add some other function 
+
