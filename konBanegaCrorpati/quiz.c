@@ -4,6 +4,14 @@
 #define MAX_QUES_LEN 300
 #define MAX_ANS_LEN 100
 
+const char *PINK = "\033[1;35m";
+const char *BLUE = "\033[1;34m";
+const char *YELLOW = "\033[1;33m";
+const char *AQUA = "\033[1;36m";
+const char *RED = "\033[1;31m";
+const char *GREEN = "\033[1;32m";
+const char *COLOR_END = "\033[0m";
+
 typedef struct{
     char text[MAX_QUES_LEN];
     char option[4][MAX_ANS_LEN];
@@ -16,9 +24,11 @@ int readQuestion(char *fileName, Question** questions);
 void print_formated_question(Question question);
 
 int main(){
+
+    printf("%s\t\t\t Chalo Khelte Hai kon Banega Crorpati %s" ,PINK ,COLOR_END);
     Question* questions;
     int no_of_question = readQuestion("question.txt", &questions);
-    printf("\nNumber of Questions: %d\n", no_of_question);
+   printf("\n");
     for(int i = 0; i < no_of_question; i++){
         print_formated_question(questions[i]);
     }
@@ -74,11 +84,12 @@ int readQuestion(char *fileName, Question** questions){
 }
 
 void print_formated_question(Question question){
-    printf("\nQuestion: %s", question.text);
+    printf("%sQuestion: %s %s", YELLOW , question.text ,COLOR_END);
     for (int i = 0; i < 4; i++) {
-        printf("Option %c: %s", 'A' + i, question.option[i]);
+        printf("%sOption %c. %s %s",BLUE, 'A' + i, question.option[i],COLOR_END);
     }
-    printf("Correct Option: %c\n", question.correct_option);
-    printf("Timeout: %d seconds\n", question.timeout);
-    printf("Prize Money: %d\n", question.prize_money);
+    
+    printf("%sHurry Up !! You Have Only  %d seconds.... %s\n", RED,question.timeout,COLOR_END);
+    printf("%sEnter Your Answer (A,B,C,D) , or L for Life line : %s\n",GREEN,COLOR_END);
 }
+    
