@@ -27,8 +27,8 @@
 
 enum editorKey
 {
-  BACKSPACE = 127,
-  ARROW_LEFT = 1000,
+  BACKSPACE = 127, // it mean 127 is ascii value of delete the char 
+  ARROW_LEFT = 1000,  //x1b[d
   ARROW_RIGHT,
   ARROW_UP,
   ARROW_DOWN,
@@ -57,7 +57,7 @@ struct editorConfig
   // cursor movment
   int cx;     // the column
   int cy;     // the row
-  int rx;     // index into the render field
+  int rx;     // index into the render field tab 
   int rowoff; // this is used for scrolling but it is vertically
   int coloff; // this is used for scrolling but it is horizontally
   int screenrows;
@@ -201,7 +201,7 @@ int editorReadKey()
 int getCursorPosition(int *rows, int *cols)
 {
   char buf[32];
-  unsigned int i = 0;
+  unsigned int i = 0;  // it mean store only on negative value 
 
   if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4)
     return -1;
