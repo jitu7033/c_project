@@ -104,7 +104,7 @@ void gamestart(){
         printf("\n\n%s Your Value is - : %s",YELLOW,COLOR_END);
         scanf("%d",&user_value);
         if(user_value == 1){
-            printf("\n\n%s Enter Your Answer : - %s",YELLOW,COLOR_END);
+            printf("\n\n%s Enter Your Answer : - %s\n",YELLOW,COLOR_END);
             for(int i = 0; i < 9; i++){
                 for(int j = 0; j < 9; j++){
                     int user_x;
