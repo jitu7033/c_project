@@ -6,35 +6,179 @@ Punjab
 A
 10
 1000
-What is the capital of India 
-Delhi
-Mumbai
-Rajsthan
-Punjab
+What is the capital of France?
+Berlin
+Madrid
+Paris
+Rome
+C
+10
+1000
+Who wrote "To Kill a Mockingbird"?
+Harper Lee
+J.K. Rowling
+Mark Twain
+Ernest Hemingway
 A
 10
 1000
-What is the capital of India 
-Delhi
-Mumbai
-Rajsthan
-Punjab
-A
+What is the largest planet in our Solar System?
+Earth
+Mars
+Jupiter
+Saturn
+C
+20
+2000
+What year did the Titanic sink?
+1905
+1912
+1923
+1930
+B
+20
+2000
+Which element has the chemical symbol "O"?
+Gold
+Oxygen
+Osmium
+Opium
+B
+20
+2000
+Who is known as the "Father of Computers"?
+Alan Turing
+Charles Babbage
+Bill Gates
+Steve Jobs
+B
+30
+5000
+Which country is the largest by land area?
+United States
+China
+Canada
+Russia
+D
+30
+5000
+What is the smallest prime number?
+1
+2
+3
+4
+B
 10
 1000
-What is the capital of India 
-Delhi
-Mumbai
-Rajsthan
-Punjab
+Which ocean is the largest?
+Atlantic
+Indian
+Arctic
+Pacific
+D
+30
+10000
+What is the main ingredient in guacamole?
+Tomato
+Onion
+Avocado
+Pepper
+C
+30
+10000
+Who painted the Mona Lisa?
+Vincent van Gogh
+Pablo Picasso
+Leonardo da Vinci
+Claude Monet
+C
+60
+500000
+What is the largest mammal in the world?
+Elephant
+Blue Whale
+Giraffe
+Hippopotamus
+B
+60
+500000
+What gas do plants use for photosynthesis?
+Nitrogen
+Oxygen
+Carbon Dioxide
+Hydrogen
+C
+60
+100000
+What is the chemical symbol for gold?
+Au
+Ag
+Pb
+Fe
 A
-10
-1000
-What is the capital of India 
-Delhi
-Mumbai
-Rajsthan
-Punjab
-A
-10
-1000
+30
+100000
+In which country would you find the Great Wall?
+Japan
+South Korea
+China
+Mongolia
+C
+60
+500000
+Who discovered penicillin?
+Louis Pasteur
+Alexander Fleming
+Jonas Salk
+Edward Jenner
+B
+60
+100000
+What is the hardest natural substance on Earth?
+Gold
+Iron
+Diamond
+Platinum
+C
+60
+100000
+What is the name of the galaxy we live in?
+Andromeda
+Milky Way
+Triangulum
+Sombrero
+B
+90
+1000000
+Who is the author of "1984"?
+Aldous Huxley
+George Orwell
+Ray Bradbury
+H.G. Wells
+B
+90
+4000000
+Which planet is known as the "Red Planet"?
+Earth
+Venus
+Mars
+Mercury
+C
+90
+80000000
+What is the name of the ship that famously sank on its maiden voyage in 1912?
+Britannic
+Lusitania
+Titanic
+Queen Mary
+C
+120
+100000000
+What is the smallest country in the world by land area?
+Monaco
+San Marino
+Liechtenstein
+Vatican City
+D
+120
+7000000
