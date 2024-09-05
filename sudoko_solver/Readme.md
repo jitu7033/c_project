@@ -4,7 +4,12 @@ This is a command-line based Sudoku solver written in C. It provides users with 
 
 ## Features
 
-- Solve random or user-input Sudoku puzzles.
+  **Game Start**: Allows the user to either continue with the existing puzzle or exit.
+- **Puzzle Input**: Users can either input their own Sudoku puzzle or get a randomly generated one.
+- **Difficulty Levels**: Offers different levels of difficulty for randomly generated puzzles.
+- **Puzzle Validation**: Checks the validity of the puzzle and user solutions.
+- **Puzzle Solving**: Provides an option for the computer to solve the puzzle.
+- **Comparison**: Compares the user’s solution with the computer’s solution.
 - The program verifies if the user's puzzle is solvable.
 - Users can solve the puzzle themselves or let the computer solve it.
 - Highlights the differences between the user's solution and the computer's solution (if the user attempts to solve it).
@@ -41,13 +46,31 @@ gcc -o run main.c -L. lib.a
 
 ./run  
 
-WELCOME TO SUDOKO SOLVER  
+WELCOME TO SUDOKO SOLVER
 
-click 1. To enter your own puzzle:  
-click Any Key Integer. TO take random puzzle:  
-1  
 
-Enter your puzzles, fill zero for empty cells and numbers 1 to 9 for values:  
+Start Game: The program will prompt you to either continue with the current puzzle or exit.
+
+Choose Puzzle Type:
+
+Enter 1 to input your own puzzle.
+Enter any other number to get a randomly generated puzzle.
+Enter Puzzle: If you chose to input your own puzzle:
+
+Enter the Sudoku grid values, using 0 for empty cells and 1 to 9 for the given numbers.
+Puzzle Difficulty: If you chose a random puzzle, specify the difficulty level:
+
+1-10: Cake
+10-20: Easy
+20-35: Medium
+35-80: Hard
+Solve Puzzle: After setting the puzzle, you can:
+
+Enter 1 to provide your own solution and validate it.
+Enter any other number to have the computer solve the puzzle and display the solution.
+Compare Solutions: If you entered your own solution, the program will compare it with the computer's solution and display discrepancies if any.
+
+
   
 
 +-------+------+---------+  
@@ -102,5 +125,5 @@ puzzle are  solved By the  computer  | answer is :
 | 6 4 2 | 9 7 8 | 5 3 1  |  
 | 9 7 8 | 5 3 1 | 6 4 2  |  
 
-
+// auto generated code by jitendra
 
