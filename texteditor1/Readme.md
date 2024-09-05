@@ -22,7 +22,7 @@ Kilo is a simple, terminal-based text editor written in C. It is designed to be 
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/jitu7033/c_project.git
+    git clone https://github.com/jitu7033/c_project/tree/main/texteditor1
     ```
 2. Navigate to the project directory:
     ```bash
