@@ -48,11 +48,11 @@ To compile the program, use the following command:
 gcc -c quiz.c -o quiz  
 ar rcs lib.a quiz  
 gcc -o run main.c -L. lib.a  
-```  
+
   
-```bash  
+bash  
 ./run  
-```  
+ 
 
        **Chalo Khelte Hai kon Banega Crorepati**  
 
