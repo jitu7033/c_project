@@ -1,5 +1,5 @@
+#include "functionlib.h"
 #include <stdio.h>
-
 const char *PINK = "\033[1;35m";
 const char *BLUE = "\033[1;34m";
 const char *YELLOW = "\033[1;33m";
@@ -32,18 +32,6 @@ int board[9][9] =
     {0,4,0,0,0,6,0,9,3},
     {7,3,1,0,8,2,0,0,0}
 };
-
-void print_puzzle(int board[9][9]);
-int valid_puzzle(int board[9][9], int row, int col,int val);
-int puzzle_solver(int board[9][9], int i, int j);
-int check_puzzle_valid(int board[9][9]);
-void match_us_and_computer(int board[9][9],int user_board[9][9]);
-void gamestart();
-
-int main(){
-    // system(clear);
-    gamestart();
-}
 
 void gamestart(){
     printf("\n\t\t\t\t%sWELCOME TO SUDOKO SOLVER\n\n%s",GREEN,COLOR_END);
