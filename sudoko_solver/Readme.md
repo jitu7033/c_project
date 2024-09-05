@@ -40,8 +40,10 @@ This is a command-line based Sudoku solver written in C. It provides users with 
 You can compile the program with `gcc`:
 
 ```bash
-git clone https://github.com/jitu7033/c_project/tree/main/sudoko_solver
+Clone project 
+git clone https://github.com/jitu7033/c_project
 
+```
 ```bash  
 gcc -c  functionlib.c -o library  
 ar rcs lib.a library  
