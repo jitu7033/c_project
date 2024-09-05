@@ -40,14 +40,14 @@ Run the editor with:
 ```bash
 ./kilo [filename]
 ```
-**[filename]:** Optionally specify a file to open.
-**Controls**
-**Ctrl-Q:** Quit the editor. If there are unsaved changes, you'll need to press Ctrl-Q multiple times.
-**Ctrl-S:** Save the current file.
-**Arrow Keys:** Move the cursor around.
-**Ctrl-F:** Placeholder for future find functionality.
-**Home:** Move cursor to the beginning of the line.
-**End:** Move cursor to the end of the line.
-**Page Up:** Scroll up by one page.
-**Page Down:** Scroll down by one page.
-**Backspace / Ctrl-H / Delete:** Delete the character before or after the cursor.
+**[filename]:** Optionally specify a file to open.  
+**Controls**  
+**Ctrl-Q:** Quit the editor. If there are unsaved changes, you'll need to press Ctrl-Q multiple times.  
+**Ctrl-S:** Save the current file.  
+**Arrow Keys:** Move the cursor around.  
+**Ctrl-F:** Placeholder for future find functionality.  
+**Home:** Move cursor to the beginning of the line.  
+**End:** Move cursor to the end of the line.  
+**Page Up:** Scroll up by one page.  
+**Page Down:** Scroll down by one page.  
+**Backspace / Ctrl-H / Delete:** Delete the character before or after the cursor.  
