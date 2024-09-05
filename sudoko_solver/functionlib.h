@@ -10,3 +10,6 @@ int check_puzzle_valid(int board[9][9]);
 void match_us_and_computer(int board[9][9],int user_board[9][9]);
 void gamestart();
 void random_generator(int board[9][9], int val);
+void boardInitilizeUser(int board[9][9]);
+int check_puzzle_valid(int board[9][9]);
+

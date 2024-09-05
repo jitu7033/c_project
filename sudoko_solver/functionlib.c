@@ -10,6 +10,8 @@ const char *COLOR_END = "\033[0m";
 const char *COLOR = "\033[1;34m";
 
 
+
+
 int board[9][9] = 
 {
     {3,5,8,1,2,4,9,7,6},
@@ -35,14 +37,28 @@ int board[9][9] =
     {0,0,0,0,0,0,0,0,0}
 };
 
+
+
 void gamestart(){
-    
+     while (1) {
+        char ch;
+        printf("\n %sPress 1. To continue()%s\n", GREEN, COLOR_END);
+        printf("\n %sPress 0 To Exit()%s\n", YELLOW, COLOR_END);
+        printf("\n Enter Your Text : -> ");
+        scanf(" %c", &ch); // Space before %c to ignore newline
+        if(ch != '0' && ch != '1'){
+            printf("\n %sPlease Enter Valid Input %s \n",RED,COLOR_END);
+            continue;
+        }
+        if(ch != '1') break;
+        boardInitilize(board);
         printf("\n%s Click 1. To enter your own puzzle : \n%s",BLUE,COLOR_END);
         printf("%s\n Click Any Key Integer . TO Take Random Puzzle : - %s\n",BLUE,COLOR_END);
         printf("\n %sEnter Your Text : - > %s",GREEN,COLOR_END);
         int user_input;
         scanf("%d",&user_input);
         if(user_input == 1){
+            boardInitilizeUser(board);
             printf("\n%s Enter your puzzles fill 0 For No Value And Fill 1 to 9 Your Value  \n %s",PINK, COLOR_END);
             for(int i = 0; i < 9; i++){
                 for(int j = 0; j < 9; j++){
@@ -60,7 +76,7 @@ void gamestart(){
             if(!check_puzzle_valid(board)){
                 print_puzzle(board);
                 printf("\n\t%s This is Unsolvable Puzzles \n %s",RED,COLOR_END);
-                return;
+                continue;
             }
         }
         else{
@@ -77,10 +93,10 @@ void gamestart(){
             printf("\n\n %sYour Puzzle Is Fill The Value In Place  Of 0 And Submit Your Puzzle : - %s\n\n",GREEN,COLOR_END);
             random_generator(board,val);
         }
-        // if(!check_puzzle_valid(board)){
-        //     printf("\n%s This is Unsolvable Puzzles \n %s",RED,COLOR_END);
-        //     continue;
-        // }
+        if(!check_puzzle_valid(board)){
+            printf("\n%s This is Unsolvable Puzzles \n %s",RED,COLOR_END);
+            continue;
+        }
         print_puzzle(board);
         printf("\n%s You Want Check Your Answer Then  Enter : 1. %s\n",AQUA,COLOR_END);
         printf("\n%s You Want To See Computer Answer Enter Any Integer Value : .%s\n",PINK,COLOR_END);
@@ -88,7 +104,7 @@ void gamestart(){
         printf("\n\n%s Your Value is - : %s",YELLOW,COLOR_END);
         scanf("%d",&user_value);
         if(user_value == 1){
-            printf("\n\n%s Enter Your Answer : - %s\n",YELLOW,COLOR_END);
+            printf("\n\n%s Enter Your Answer : - %s",YELLOW,COLOR_END);
             for(int i = 0; i < 9; i++){
                 for(int j = 0; j < 9; j++){
                     int user_x;
@@ -125,6 +141,48 @@ void gamestart(){
                 print_puzzle(board);
             }
         }
+    }
+}
+
+
+void boardInitilize(int baord[9][9]){
+    int board_own[9][9] = {
+        {3,5,8,1,2,4,9,7,6},
+        {9,2,7,5,6,8,3,1,4},
+        {4,1,6,3,7,9,5,2,8},
+        {2,6,4,8,9,5,7,3,1},
+        {5,7,3,2,4,1,8,6,9},
+        {1,8,9,6,3,7,4,5,2},
+        {6,9,5,4,1,3,2,8,7},
+        {8,4,2,7,5,6,1,9,3},
+        {7,3,1,9,8,2,6,4,5}
+    };
+
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            board[i][j] = board_own[i][j];
+        }
+    }
+
+}
+void boardInitilizeUser(int board[9][9]){
+    int user[9][9]=
+    {
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0}
+    };
+    for(int i = 0; i < 9; i++){
+        for(int j = 0; j < 9; j++){
+            board[i][j] = user[i][j];
+        }
+    }
 }
 int check_puzzle_valid(int board[9][9]){
     for(int i = 0; i < 9; i++){
