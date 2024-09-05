@@ -4,11 +4,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+#include "quiz.h"
 
-#define MAX_QUES_LEN 300
-#define MAX_ANS_LEN 100
+ struct termios old_props;
 
-volatile timeOut_happed = 0;
 
 const char *PINK = "\033[1;35m";
 const char *BLUE = "\033[1;34m";
@@ -18,25 +17,9 @@ const char *RED = "\033[1;31m";
 const char *GREEN = "\033[1;32m";
 const char *COLOR_END = "\033[0m";
 
-typedef struct{
-    char text[MAX_QUES_LEN];
-    char option[4][MAX_ANS_LEN];
-    char correct_option;
-    int timeout;
-    int prize_money;
-} Question;
+volatile timeOut_happed = 0;
 
-int readQuestion(char *fileName, Question** questions);
-void print_formated_question(Question question);
-void play_game(Question* questions,int no_of_question);
-int use_lifeline(Question* question, int * lifeline);
-struct termios old_props;
-
-void reset_terminal_attributes();
-void set_terminal_attibute();
-
-
-int main(){
+void quiz_gamestart(){
     set_terminal_attibute();
     printf("%s\t\t\t Chalo Khelte Hai kon Banega Crorepati %s\n" ,PINK ,COLOR_END);
     Question* questions;
